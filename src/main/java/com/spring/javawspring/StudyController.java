@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javawspring.common.ARIAUtil;
 import com.spring.javawspring.common.SecurityUtil;
@@ -272,5 +273,19 @@ public class StudyController {
 	public String uuidProcessPost() {
 		UUID uid = UUID.randomUUID(); // java util에 있는거 바로 그냥 사용이 가능함.
 		return uid.toString();
+	}
+	
+	// 파일 업로드 폼
+	@RequestMapping(value="/fileUpload/fileUploadForm",method=RequestMethod.GET)
+	public String fileUploadFormGet() {
+		return "study/fileUpload/fileUploadForm";
+	}
+	
+	// 파일 업로드 처리
+	@RequestMapping(value="/fileUpload/fileUploadForm",method=RequestMethod.POST)
+	public String fileUploadFormPost(MultipartFile fName) {
+		int res = studyService.fileUpload(fName);
+		if(res == 1) return "redirect:/msg/fileUploadOk";
+		return "redirect:/msg/fileUploadNo";
 	}
 }

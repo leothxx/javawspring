@@ -63,6 +63,26 @@ public class MessageController {
 			model.addAttribute("msg","메일이 전송되었습니다!");
 			model.addAttribute("url","study/mail/mailForm");
 		}
+		else if(msgFlag.equals("memberImsiPwdOk")) {
+			model.addAttribute("msg","계정의 이메일로 임시 비밀번호를 발송하였습니다.");
+			model.addAttribute("url","member/memberLogin");
+		}
+		else if(msgFlag.equals("memberImsiPwdNo")) {
+			model.addAttribute("msg","아이디와 이메일 주소를 확인해주세요!");
+			model.addAttribute("url","member/memberPwdSearch");
+		}
+		else if(msgFlag.equals("memberPwdUpdateOk")) {
+			model.addAttribute("msg",mid+"님 비밀번호가 변경되었습니다!");
+			model.addAttribute("url","member/memberLogin");
+		}
+		else if(msgFlag.equals("fileUploadOk")) {
+			model.addAttribute("msg","파일이 업로드 되었습니다!");
+			model.addAttribute("url","study/fileUpload/fileUploadForm");
+		}
+		else if(msgFlag.equals("fileUploadNo")) {
+			model.addAttribute("msg","파일 업로드 실패!");
+			model.addAttribute("url","study/fileUpload/fileUploadForm");
+		}
 		return "include/message";
 	}
 }
