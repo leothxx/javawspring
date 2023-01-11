@@ -18,12 +18,16 @@ public interface MemberService {
 
 	public int totRecCnt();
 
-	public ArrayList<MemberVO> getMemberList(int startIndexNo, int pageSize);
+	public ArrayList<MemberVO> getMemberList(int startIndexNo, int pageSize, String mid);
 
 	public int totTermRecCnt(String mid);
 
 	public ArrayList<MemberVO> getTermMemberList(int startIndexNo, int pageSize, String mid);
 
 	public void setMemberPwdUpdate(String mid, String encode);
+
+	public void memberDelete(String mid);
+
+	public void setMemberUpdate(MemberVO vo);
 	
 }

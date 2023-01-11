@@ -277,7 +277,7 @@ public class MemberController {
 		
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "member", mid, ""); // 3. 총 레코드 건수를 구한다.
 		
-		List<MemberVO> vos = memberService.getMemberList(pageVO.getStartIndexNo(), pageVO.getPageSize());
+		List<MemberVO> vos = memberService.getMemberList(pageVO.getStartIndexNo(), pageVO.getPageSize(),"");
 		
 		model.addAttribute("vos", vos);
 		model.addAttribute("pageVO", pageVO);
@@ -370,5 +370,57 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		return "0";
+	}
+	
+	// 회원 탈퇴 폼
+	@RequestMapping(value="/memberDelete", method=RequestMethod.GET)
+	public String memberDeleteGet() {
+		return "member/memberDelete";
+	}
+	
+	// 회원 탈퇴 처리
+	@RequestMapping(value="/memberDelete", method=RequestMethod.POST)
+	public String memberDeletePost(String mid, String pwd) {
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		pwd = passwordEncoder.encode(pwd);
+		if(vo.getPwd().equals(pwd)) {
+			memberService.memberDelete(mid);
+			return "redirect:/msg/memberDeleteOk";
+		}
+		return "redirect:/msg/memberDeleteNo";
+	}
+	
+	// 회원 수정 폼
+	@RequestMapping(value="/memberUpdate", method=RequestMethod.GET)
+	public String memberUpdateGet(HttpSession session, Model model) {
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		String email1 = vo.getEmail().substring(0, vo.getEmail().lastIndexOf("@"));
+		String email2 = vo.getEmail().substring(vo.getEmail().lastIndexOf("@"));
+		String birthday = vo.getBirthday().substring(0, 10);
+		String tels[] = vo.getTel().split("-");
+		String address[] = vo.getAddress().split("/");
+		model.addAttribute("vo",vo);
+		model.addAttribute("email1",email1);
+		model.addAttribute("email2",email2);
+		model.addAttribute("birthday",birthday);
+		model.addAttribute("tel1",tels[0]);
+		model.addAttribute("tel2",tels[1]);
+		model.addAttribute("tel3",tels[2]);
+		model.addAttribute("postcode",address[0]);
+		model.addAttribute("roadAddress",address[1]);
+		model.addAttribute("detailAddress",address[2]);
+		model.addAttribute("extraAddress",address[3]);
+		
+		return "member/memberUpdate";
+	}
+	
+	// 회원 수정 처리
+	@RequestMapping(value="/memberUpdate", method=RequestMethod.POST)
+	public String memberUpdatePost(MemberVO vo, HttpSession session) {
+		String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid");
+		vo.setMid(mid);
+		memberService.setMemberUpdate(vo);
+		return "redirect:/msg/memberUpdateNo";
 	}
 }

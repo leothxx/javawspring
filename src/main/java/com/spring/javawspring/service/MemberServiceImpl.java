@@ -77,8 +77,8 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public ArrayList<MemberVO> getMemberList(int startIndexNo, int pageSize) {
-		return memberDAO.getMemberList(startIndexNo, pageSize);
+	public ArrayList<MemberVO> getMemberList(int startIndexNo, int pageSize, String mid) {
+		return memberDAO.getMemberList(startIndexNo, pageSize, mid);
 	}
 
 	@Override
@@ -99,6 +99,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void setMemberPwdUpdate(String mid, String pwd) {
 		memberDAO.setMemberPwdUpdate(mid,pwd);
+	}
+
+	@Override
+	public void memberDelete(String mid) {
+		memberDAO.memberDelete(mid);
+	}
+
+	@Override
+	public void setMemberUpdate(MemberVO vo) {
+		memberDAO.setMemberUpdate(vo);
 	}
 	
 }

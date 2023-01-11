@@ -14,7 +14,7 @@
 		select count(*) from member2<if test="mid != ''">where mid like concat('%',#{mid},'%')</if>;
 	</select>
 	<select id="getMemberList" resultType="com.spring.javawspring.vo.MemberVO">
-		select * from member2 order by idx desc limit #{startIndexNo},#{pageSize};
+		select * from member2 <if test="mid != ''">where mid like concat('%',#{mid},'%')</if> order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getTermMemberList" resultType="com.spring.javawspring.vo.MemberVO">
 		select * from member2 <if test="mid != ''"> where mid like concat('%',#{mid},'%')</if> order by idx desc limit #{startIndexNo},#{pageSize};
@@ -30,6 +30,9 @@
 	<update id="setMemberPwdUpdate">
 		update member2 set pwd = #{pwd} where mid = #{mid}; 
 	</update>
+	<update id="setMemberUpdate">
+		update member2 set nickName = #{vo.nickName}, name = #{vo.name}, email = #{vo.email}, gender = #{vo.gender}, b  where mid = #{vo.mid}; 
+	</update>
 	
 	
 	
@@ -37,4 +40,8 @@
 	<insert id="setMemberJoinOk">
 		insert into member2 values (default,#{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.name},#{vo.gender},#{vo.birthday},#{vo.tel},#{vo.address},#{vo.email},#{vo.homePage},#{vo.job},#{vo.hobby},#{vo.photo},#{vo.content},#{vo.userInfor},default,default,default,default,default,default,default);
 	</insert>
+	
+	<delete id="memberDelete">
+		delete from member2 where mid = #{mid};
+	</delete>
 </mapper>

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MessageController {
 	@RequestMapping(value="/msg/{msgFlag}",method=RequestMethod.GET)
-	public String msgGet(@PathVariable String msgFlag, Model model, @RequestParam(value="mid",defaultValue="",required = false) String mid) {
+	public String msgGet(@PathVariable String msgFlag, Model model, @RequestParam(value="mid",defaultValue="",required = false) String mid, 
+			@RequestParam(value="pag",defaultValue="1", required = false) int pag,
+			@RequestParam(value="flag",defaultValue="1", required = false) String flag) {
 		if(msgFlag.equals("memberLoginOk")) {
 			model.addAttribute("msg",mid+"님 어서오세요~");
 			model.addAttribute("url","member/memberMain");
@@ -82,6 +84,46 @@ public class MessageController {
 		else if(msgFlag.equals("fileUploadNo")) {
 			model.addAttribute("msg","파일 업로드 실패!");
 			model.addAttribute("url","study/fileUpload/fileUploadForm");
+		}
+		else if(msgFlag.equals("memberDeleteOk")) {
+			model.addAttribute("msg","회원 탈퇴가 정상적으로 처리되었습니다.");
+			model.addAttribute("url","member/memberLogin");
+		}
+		else if(msgFlag.equals("memberDeleteNo")) {
+			model.addAttribute("msg","입력하신 정보를 다시 확인해주세요.");
+			model.addAttribute("url","member/memberDelete");
+		}
+		else if(msgFlag.equals("boardInputOk")) {
+			model.addAttribute("msg","게시물이 등록되었습니다.");
+			model.addAttribute("url","board/boardList");
+		}
+		else if(msgFlag.equals("boardInputNo")) {
+			model.addAttribute("msg","게시물이 등록되지 않았습니다.");
+			model.addAttribute("url","board/boardInput");
+		}
+		else if(msgFlag.equals("adminMemberDeleteOk")) {
+			model.addAttribute("msg","회원 탈퇴 처리 되었습니다.");
+			model.addAttribute("url","admin/member/adminMemberList?pag="+pag);
+		}
+		else if(msgFlag.equals("adminMemberDeleteNo")) {
+			model.addAttribute("msg","회원 탈퇴 처리에 실패하였습니다.");
+			model.addAttribute("url","admin/member/adminMemberList?pag="+pag);
+		}
+		else if(msgFlag.equals("boardDeleteOk")) {
+			model.addAttribute("msg","게시글이 삭제되었습니다.");
+			model.addAttribute("url","board/boardList"+flag);
+		}
+		else if(msgFlag.equals("boardDeleteNo")) {
+			model.addAttribute("msg","게시글이 삭제할 권한이 없습니다.");
+			model.addAttribute("url","board/boardList"+flag);
+		}
+		else if(msgFlag.equals("boardUpdateOk")) {
+			model.addAttribute("msg","게시글이 수정되었습니다.");
+			model.addAttribute("url","board/boardList"+flag);
+		}
+		else if(msgFlag.equals("fileDeleteOk")) {
+			model.addAttribute("msg","파일이 삭제되었습니다.");
+			model.addAttribute("url","admin/file/fileList");
 		}
 		return "include/message";
 	}

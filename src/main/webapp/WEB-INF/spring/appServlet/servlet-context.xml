@@ -16,11 +16,13 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/images/**" location="/resources/images/" />
 	<resources mapping="/pds/**" location="/resources/pds/" />
-	<resources mapping="/board/**" location="/resources/board/" />
+	<resources mapping="/board/**" location="/resources/data/board/" />
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/font/**" location="/resources/font/" />
 	<resources mapping="/css/**" location="/resources/css/" />
 	<resources mapping="/member/**" location="/resources/member/" />
+	<resources mapping="/ckeditor/**" location="/resources/ckeditor/" />
+	<resources mapping="/data/**" location="/resources/data/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -51,6 +53,7 @@
 			</interceptor>
 			<interceptor>
 				<mapping path="/member/**"/>
+				<mapping path="/board/boardList"/>
 				<exclude-mapping path="/member/memberLogin"/>
 				<exclude-mapping path="/member/memberLogout"/>
 				<exclude-mapping path="/member/memberJoin"/>
@@ -61,8 +64,10 @@
 				<beans:ref bean="level4Interceptor"/>
 			</interceptor>
 			<interceptor>
-				<mapping path="/board/boardList"/>
+				<mapping path="/study/**"/>
+				<mapping path="/board/**"/>
 				<mapping path="/member/memberList"/>
+				<exclude-mapping path="/board/boardList"/>
 				<beans:ref bean="level3Interceptor"/>
 			</interceptor>
 		</interceptors>

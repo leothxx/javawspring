@@ -198,7 +198,7 @@ public class StudyController {
 	// 메일 작성 폼
 	@RequestMapping(value="/mail/mailForm",method=RequestMethod.GET)
 	public String mailFormGet(Model model, String email) {
-		List<MemberVO> vos = memberService.getMemberList(0,1000); // 페이징처리 임의로 천건
+		List<MemberVO> vos = memberService.getMemberList(0,1000,""); // 페이징처리 임의로 천건
 		model.addAttribute("vos",vos);
 		model.addAttribute("email",email);
 		return "study/mail/mailForm";

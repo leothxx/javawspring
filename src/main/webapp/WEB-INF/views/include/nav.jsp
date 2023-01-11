@@ -39,11 +39,11 @@
 	        <a href="${ctp}/member/memberMain" class="w3-bar-item w3-button">회원메인화면</a>
 	        <a href="#" class="w3-bar-item w3-button">웹메세지</a>
 	        <a href="${ctp}/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
-	        <a href="#" class="w3-bar-item w3-button">회원정보수정</a>
+	        <a href="${ctp}/member/memberUpdate" class="w3-bar-item w3-button">회원정보수정</a>
 	        <a href="${ctp}/member/memberPwdUpdate" class="w3-bar-item w3-button">비밀번호수정</a>
-	        <a href="#" class="w3-bar-item w3-button">회원탈퇴</a>
+	        <a href="${ctp}/member/memberDelete" class="w3-bar-item w3-button">회원탈퇴</a>
 	        <c:if test="${sLevel == 0 || sLevel == 1}">
-		        <a href="#" class="w3-bar-item w3-button">관리자 메뉴</a>
+		        <a href="${ctp}/admin/adminMain" class="w3-bar-item w3-button">관리자 메뉴</a>
 	        </c:if>
 	      </div>
 	    </div>
