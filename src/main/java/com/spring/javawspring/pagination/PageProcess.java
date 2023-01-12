@@ -30,7 +30,7 @@ public class PageProcess {
 			totRecCnt = guestDAO.totRecCnt();
 		}
 		else if(section.equals("board")) {
-			totRecCnt = boardDAO.totRecCnt();
+			totRecCnt = boardDAO.totRecCnt(part,searchString);
 		}
 		
 		

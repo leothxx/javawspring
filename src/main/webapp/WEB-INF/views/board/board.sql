@@ -24,17 +24,20 @@ select * from board2;
 /* 게시판에 댓글 달기 */
 create table boardReply2 (
   idx		int not null auto_increment,	/* 댓글의 고유번호 */
-  boardIdx int not null,							/* 원본글의 고유번호(외래키로 지정) */
-  mid			 varchar(20) not null,			/* 댓글 올린이의 아이디 */
+  boardIdx int not null,					/* 원본글의 고유번호(외래키로 지정) */
+  mid			 varchar(20) not null,		/* 댓글 올린이의 아이디 */
   nickName varchar(20) not null,			/* 댓글 올린이의 닉네임 */
   wDate		 datetime default now(),		/* 댓글 올린 날짜 */
   hostIp	 varchar(50) not null,			/* 댓글올린 PC의 IP */
-  content  text not null,							/* 댓글 내용 */
+  content  text not null,                   /* 댓글 내용 */
+  level int not null default 0,             /* 댓글 레벨 - 첫번째(부모댓글의 레벨은 0) */
+  levelOrder int not null default 0,        /* 댓글의 순서 - 첫번째(부모댓글의 레벨은 0) */
   primary key(idx),
   foreign key(boardIdx) references board2(idx)
   /* on update cascade */
   /* on delete restrict */
 );
+
 desc boardReply2;
 
 

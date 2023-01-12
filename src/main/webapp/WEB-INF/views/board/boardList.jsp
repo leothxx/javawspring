@@ -16,6 +16,7 @@
   		let pageSize = document.getElementById("pageSize").value;
   		location.href="${ctp}/board/boardList?pageSize="+pageSize+"&pag=${pageVO.pag}";
   	}
+  	// 검색
   	function searchCheck() {
   		let searchString = $("#searchString").val();
   		if(searchString.trim() == "") {
@@ -37,7 +38,7 @@
   <br/>
   <table class="table table-borderless">
     <tr>
-      <td class="text-left p-0"><c:if test="${sLevel != 4}"><a href="${ctp}/board/boardInput?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-secondary btn-sm">글쓰기</a></td></c:if>
+      <td class="text-left p-0"><c:if test="${sLevel != 4}"><a href="${ctp}/board/boardInput?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-secondary btn-sm">글쓰기</a>&nbsp;&nbsp;</c:if><a href="${ctp}/board/boardList" class="btn btn-sm btn-primary">전체보기</a></td>
       <td class="text-right p-0">
         <select name="pageSize" id="pageSize" onchange="pageCheck()">
           <option value="5"  ${pageSize==5  ? 'selected' : ''}>5건</option>
@@ -88,24 +89,24 @@
 <div class="text-center">
   <ul class="pagination justify-content-center">
     <c:if test="${pageVO.pag > 1}">
-      <li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=1">첫페이지</a></li>
+      <li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=1&search=${search}&searchString=${searchString}">첫페이지</a></li>
     </c:if>
     <c:if test="${pageVO.curBlock > 0}">
-      <li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}">이전블록</a></li>
+      <li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&search=${search}&searchString=${searchString}">이전블록</a></li>
     </c:if>
     <c:forEach var="i" begin="${(pageVO.curBlock)*pageVO.blockSize + 1}" end="${(pageVO.curBlock)*pageVO.blockSize + pageVO.blockSize}" varStatus="st">
       <c:if test="${i <= pageVO.totPage && i == pageVO.pag}">
-    		<li class="page-item active"><a class="page-link bg-secondary border-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${i}">${i}</a></li>
+    		<li class="page-item active"><a class="page-link bg-secondary border-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${i}&search=${search}&searchString=${searchString}">${i}</a></li>
     	</c:if>
       <c:if test="${i <= pageVO.totPage && i != pageVO.pag}">
-    		<li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${i}">${i}</a></li>
+    		<li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${i}&search=${search}&searchString=${searchString}">${i}</a></li>
     	</c:if>
     </c:forEach>
     <c:if test="${pageVO.curBlock < pageVO.lastBlock}">
-      <li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${(pageVO.curBlock+1)*pageVO.blockSize + 1}">다음블록</a></li>
+      <li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${(pageVO.curBlock+1)*pageVO.blockSize + 1}&search=${search}&searchString=${searchString}">다음블록</a></li>
     </c:if>
     <c:if test="${pageVO.pag < pageVO.totPage}">
-      <li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${pageVO.totPage}">마지막페이지</a></li>
+      <li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/boardList?pageSize=${pageVO.pageSize}&pag=${pageVO.totPage}&search=${search}&searchString=${searchString}">마지막페이지</a></li>
     </c:if>
   </ul>
 </div>
@@ -113,7 +114,7 @@
 <br/>
 <!--  검색기 처리 시작 -->
 <div class="cantainer text-center">
-	<form name="searchForm" method="post" action="${ctp}/boSearch.bo">
+	<form name="searchForm" method="post" action="${ctp}/board/boardSearch">
 		<b>검색 : </b>
 		<select name="search">
 			<option value="title">제목</option>

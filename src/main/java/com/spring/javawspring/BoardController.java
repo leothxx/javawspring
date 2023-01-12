@@ -18,6 +18,7 @@ import com.spring.javawspring.pagination.PageProcess;
 import com.spring.javawspring.pagination.PageVO;
 import com.spring.javawspring.service.BoardService;
 import com.spring.javawspring.service.MemberService;
+import com.spring.javawspring.vo.BoardReplyVO;
 import com.spring.javawspring.vo.BoardVO;
 import com.spring.javawspring.vo.GoodVO;
 import com.spring.javawspring.vo.MemberVO;
@@ -39,13 +40,24 @@ public class BoardController {
 	@RequestMapping(value="/boardList",method=RequestMethod.GET)
 	public String boardListGet(Model model,
 			@RequestParam(name="pag", defaultValue="1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue="5", required = false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "board", "", "");
-		
-		List<BoardVO> vos = boardService.getBoardList(pageVO.getStartIndexNo(),pageSize);
+			@RequestParam(name="pageSize", defaultValue="5", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue="", required = false) String search,
+			@RequestParam(name="searchString", defaultValue="", required = false) String searchString) {
+		PageVO pageVO = null;
+		List<BoardVO> vos = null;
+		if(!search.equals("") && !searchString.equals("")) {
+			pageVO = pageProcess.totRecCnt(pag, pageSize, "board", search, searchString);
+			vos = boardService.getBoardListSearch(pageVO.getStartIndexNo(), pageSize, search, searchString);
+		}
+		else {
+			pageVO = pageProcess.totRecCnt(pag, pageSize, "board", "", "");
+			vos = boardService.getBoardList(pageVO.getStartIndexNo(),pageSize);
+		}
 		
 		model.addAttribute("vos",vos);
 		model.addAttribute("pageVO",pageVO);
+		model.addAttribute("search",search);
+		model.addAttribute("searchString",searchString);
 		return "board/boardList";
 	}
 	
@@ -109,6 +121,10 @@ public class BoardController {
 		// 이전글 / 다음글 가져오기
 		ArrayList<BoardVO> pnVos = boardService.getPrevNext(idx);
 		model.addAttribute("pnVos",pnVos);
+		
+		//댓글 가져오기(replyVos)
+		List<BoardReplyVO> replyVos = boardService.getBoardReply(idx);
+		model.addAttribute("replyVos",replyVos);
 		
 		BoardVO vo = boardService.getBoardContent(idx);
 		model.addAttribute("vo",vo);
@@ -199,5 +215,62 @@ public class BoardController {
 		model.addAttribute("pageSize",pageSize);
 		return "redirect:/msg/boardUpdateOk";
 	}
+	
+	// 댓글 달기
+	@ResponseBody
+	@RequestMapping(value="/boardReplyInput", method=RequestMethod.POST)
+	public String boardReplyInputPost(BoardReplyVO replyVo) {
+		int levelOrder = 0;
+		String strlevelOrder = boardService.getMaxLevelOrder(replyVo.getBoardIdx());
+		if(strlevelOrder != null) levelOrder = Integer.parseInt(strlevelOrder) +1;
+		replyVo.setLevelOrder(levelOrder);
+		boardService.setBoardReplyInput(replyVo);
+		return "1";
+	}
+	
+	// 답글 달기
+	@ResponseBody
+	@RequestMapping(value="/boardReplyInput2", method=RequestMethod.POST)
+	public String boardReplyInput2Post(BoardReplyVO replyVo) {
+		boardService.setLevelOrderPlusUpdate(replyVo);
+		replyVo.setLevel(replyVo.getLevel()+1);
+		replyVo.setLevelOrder(replyVo.getLevelOrder()+1);
+		boardService.setBoardReplyInput2(replyVo);
+		return "1";
+	}
+	
+	// 댓글 삭제
+	@ResponseBody
+	@RequestMapping(value="/boardReplyDeleteOk", method=RequestMethod.POST)
+	public String boardReplyDeleteOkPost(int idx) {
+		boardService.setBoardReplyDeleteOk(idx);
+		
+		return "1";
+	}
+	
+	// 댓글 수정
+	@ResponseBody
+	@RequestMapping(value="/boardReplyUpdateOk", method=RequestMethod.POST)
+	public String boardReplyUpdateOkPost(int idx, String content, String hostIp) {
+		int res = boardService.setBoardReplyUpdateOk(idx,content,hostIp);
+		return res+"";
+	}
+	
+	// 게시판 검색기
+	@RequestMapping(value="/boardSearch", method=RequestMethod.POST)
+	public String boardSearchPost(Model model,String search, String searchString, 
+			@RequestParam(name="pag", defaultValue="1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue="5", required = false) int pageSize) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "board", search, searchString);
+		List<BoardVO> vos = boardService.getBoardListSearch(pageVO.getStartIndexNo(), pageSize, search, searchString);
+		model.addAttribute("vos",vos);
+		model.addAttribute("pag",pag);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("search",search);
+		model.addAttribute("searchString",searchString);
+		model.addAttribute("pageVO",pageVO);
+		return "board/boardList";
+	}
+	
 	
 }

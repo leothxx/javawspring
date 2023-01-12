@@ -16,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.javawspring.dao.BoardDAO;
+import com.spring.javawspring.vo.BoardReplyVO;
 import com.spring.javawspring.vo.BoardVO;
 import com.spring.javawspring.vo.GoodVO;
 
@@ -179,6 +180,46 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void setBoardUpdateOk(BoardVO vo) {
 		boardDAO.setBoardUpdateOk(vo);
+	}
+
+	@Override
+	public void setBoardReplyInput(BoardReplyVO replyVo) {
+		boardDAO.setBoardReplyInput(replyVo);
+	}
+
+	@Override
+	public List<BoardReplyVO> getBoardReply(int idx) {
+		return boardDAO.getBoardReply(idx);
+	}
+
+	@Override
+	public void setBoardReplyDeleteOk(int idx) {
+		boardDAO.setBoardReplyDeleteOk(idx);
+	}
+
+	@Override
+	public String getMaxLevelOrder(int boardIdx) {
+		return boardDAO.getMaxLevelOrder(boardIdx);
+	}
+
+	@Override
+	public void setLevelOrderPlusUpdate(BoardReplyVO replyVo) {
+		boardDAO.setLevelOrderPlusUpdate(replyVo);
+	}
+
+	@Override
+	public void setBoardReplyInput2(BoardReplyVO replyVo) {
+		boardDAO.setBoardReplyInput2(replyVo);
+	}
+
+	@Override
+	public int setBoardReplyUpdateOk(int idx, String content, String hostIp) {
+		return boardDAO.setBoardReplyUpdateOk(idx,content,hostIp);
+	}
+
+	@Override
+	public List<BoardVO> getBoardListSearch(int startIndexNo, int pageSize, String search, String searchString) {
+		return boardDAO.getBoardListSearch(startIndexNo, pageSize, search, searchString);
 	}
 
 }
