@@ -199,7 +199,7 @@
     	let form = "";
     	form += '작성자 : '+nickName+'&nbsp;&nbsp;';
     	form += '글 내용 : <textarea name="content" id="content'+idx+'" class="form-control mb-2">';
-    	form += content;
+    	form += content.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
     	form += '</textarea>';
     	form += '<input type="button" value="수정" onclick="replyUpdateOk('+idx+')" class="btn btn-primary"/>&nbsp;&nbsp;';
     	form += '<input type="button" value="닫기" onclick="replyUpdateClose('+idx+')" class="btn btn-danger"/>';
