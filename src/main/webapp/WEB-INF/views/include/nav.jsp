@@ -18,6 +18,7 @@
 	        <a href="${ctp}/study/password/bCrypt" class="w3-bar-item w3-button">암호화연습3(BCrypt)</a>
 	        <a href="${ctp}/study/ajax/ajaxMenu" class="w3-bar-item w3-button">AJax연습</a>
 	        <a href="${ctp}/study/mail/mailForm" class="w3-bar-item w3-button">메일연습</a>
+	        <a href="${ctp}/study/calendar/calendar" class="w3-bar-item w3-button">인터넷달력연습</a>
 	        <a href="${ctp}/study/fileUpload/fileUploadForm" class="w3-bar-item w3-button">파일업로드연습</a>
 	        <a href="${ctp}/study/uuid/uuidForm" class="w3-bar-item w3-button">UUID</a>
 	        <a href="#" class="w3-bar-item w3-button">인터넷달력</a>
@@ -37,6 +38,7 @@
 	      <button class="w3-padding-large w3-button" title="More">${sNickName} <i class="fa fa-caret-down"></i></button>     
 	      <div class="w3-dropdown-content w3-bar-block w3-card-4">
 	        <a href="${ctp}/member/memberMain" class="w3-bar-item w3-button">회원메인화면</a>
+	        <a href="${ctp}/schedule/schedule" class="w3-bar-item w3-button">일정관리</a>
 	        <a href="#" class="w3-bar-item w3-button">웹메세지</a>
 	        <a href="${ctp}/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
 	        <a href="${ctp}/member/memberUpdate" class="w3-bar-item w3-button">회원정보수정</a>
